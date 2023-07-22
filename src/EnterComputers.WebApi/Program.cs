@@ -1,3 +1,10 @@
+using EnterComputers.DataAcces.Interfaces.Categories;
+using EnterComputers.DataAcces.Repositories.Categories;
+using EnterComputers.Service.Interfaces.Categories;
+using EnterComputers.Service.Interfaces.Common;
+using EnterComputers.Service.Services.Categories;
+using EnterComputers.Service.Services.Common;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -6,7 +13,11 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
+//->
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<IFileService, FileServic>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
+//->
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

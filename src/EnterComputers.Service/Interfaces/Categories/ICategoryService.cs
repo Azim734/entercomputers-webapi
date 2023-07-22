@@ -1,0 +1,12 @@
+﻿using EnterComputers.Service.Dtos.Categories;
+
+namespace EnterComputers.Service.Interfaces.Categories;
+
+public interface ICategoryService
+{
+    public Task<bool> CreateAsync(CategoryCreateDto dto);
+
+    public Task<bool> DeleteAsync(long categoryId);
+
+    public Task<bool> CountAsync();
+}

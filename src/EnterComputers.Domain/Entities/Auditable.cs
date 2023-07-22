@@ -1,6 +1,6 @@
 ﻿namespace EnterComputers.Domain.Entities
 {
-    public abstract class Auditable
+    public abstract class Auditable : BaseEntity
     {
         public DateTime CreatedAt { get; set; }
 
