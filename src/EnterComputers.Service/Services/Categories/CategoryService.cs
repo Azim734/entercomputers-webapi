@@ -1,4 +1,5 @@
 ﻿using EnterComputers.DataAcces.Interfaces.Categories;
+using EnterComputers.DataAcces.Utils;
 using EnterComputers.Domain.Entities.Categories;
 using EnterComputers.Domain.Exceptions.Categories;
 using EnterComputers.Domain.Exceptions.Files;
@@ -6,7 +7,6 @@ using EnterComputers.Service.Common.Helpers;
 using EnterComputers.Service.Dtos.Categories;
 using EnterComputers.Service.Interfaces.Categories;
 using EnterComputers.Service.Interfaces.Common;
-using System.IO;
 
 namespace EnterComputers.Service.Services.Categories;
 
@@ -22,11 +22,15 @@ public class CategoryService : ICategoryService
         this._fileService = fileService;
     }
 
-    public async Task<long> CountAsync()=> await _reposetory.CountAsync();
+    public async Task<long> CountAsync()
+    {
+        var result =await _reposetory.CountAsync();
+        return result;
+    }
 
     public async Task<bool> CreateAsync(CategoryCreateDto dto)
     {
-        string imagepath = await _fileService.UploadAvatarAsync(dto.Image);
+        string imagepath = await _fileService.UploadImageAsync(dto.Image);
         Category category = new Category()
         {
             ImagePath = imagepath,
@@ -52,8 +56,46 @@ public class CategoryService : ICategoryService
 
     }
 
-    Task<bool> ICategoryService.CountAsync()
+    public async Task<IList<Category>> GetAllAsync(PaginationParams @params)
     {
-        throw new NotImplementedException();
+        var categories = await _reposetory.GetAllAsync(@params);
+        return categories;
+    }
+
+    public async Task<Category> GetByIdAsync(long categoryId)
+    {
+        var category = await _reposetory.GetByIdAsync(categoryId);
+        if (category is null) throw new CategoryNotFoundExcaption();
+        else return category;
+    }
+
+    public async Task<bool> UpdateAsync(long categoryId, CategoryUpdateDto dto)
+    {
+        var category = await _reposetory.GetByIdAsync(categoryId);
+        if(category is null)throw new CategoryNotFoundExcaption();
+
+        // parse new items to category
+        category.Name = dto.Name;
+        category.Description = dto.Description;
+
+        if(dto.Image is not null)
+        {
+            //delete old image
+            var deleteResult = await _fileService.DeleteImageAsync(category.ImagePath);
+            if(deleteResult is false ) throw new ImageNotFoundException();
+
+            // upload new image
+            string newImagePath = await _fileService.UploadImageAsync(dto.Image);
+
+            // parse new path to category
+            category.ImagePath = newImagePath;
+        }
+        //else category old image have to save
+
+        category.UpdatedAt = TimeHelper.GetDateTime();
+
+        var dbResult = await _reposetory.UpdateAsync(categoryId, category);
+        return dbResult > 0;
+
     }
 }
