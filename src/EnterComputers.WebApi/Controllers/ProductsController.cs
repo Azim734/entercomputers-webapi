@@ -13,5 +13,6 @@ namespace EnterComputers.WebApi.Controllers
     [ApiController]
     public class ProductsController : ControllerBase
     {
+         
     }
 }
