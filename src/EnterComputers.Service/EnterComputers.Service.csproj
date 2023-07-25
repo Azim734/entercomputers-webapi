@@ -10,11 +10,11 @@
     <Folder Include="Common\Attributes\" />
     <Folder Include="Common\Exceptions\" />
     <Folder Include="Common\Security\" />
-    <Folder Include="Common\Validations\" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Dapper" Version="2.0.143" />
+    <PackageReference Include="FluentValidation" Version="11.6.0" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="6.0.0-preview.4.21253.5" />
     <PackageReference Include="Npgsql" Version="7.0.4" />
   </ItemGroup>

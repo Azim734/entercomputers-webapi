@@ -1,6 +1,7 @@
 ﻿using EnterComputers.DataAcces.Utils;
 using EnterComputers.Service.Dtos.Categories;
 using EnterComputers.Service.Interfaces.Categories;
+using EnterComputers.Service.Validators.Dtos.Categories;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EnterComputers.WebApi.Controllers;
@@ -36,11 +37,21 @@ public class CategotiesController : ControllerBase
 
     [HttpPost]
     public async Task<IActionResult> CreateAsync([FromForm] CategoryCreateDto dto)
-        => Ok(await _service.CreateAsync(dto));
+    {
+        var createValidator = new CategoryCreateValidator();
+        var result = createValidator.Validate(dto);
+        if  (result.IsValid) return Ok(await _service.CreateAsync(dto));
+        else return BadRequest(result.Errors);
+    }
 
     [HttpPut("{categoryId}")]
     public async Task<IActionResult> UpdateAsync(long categoryId, [FromForm] CategoryUpdateDto dto)
-    => Ok(await _service.UpdateAsync(categoryId, dto));
+    {
+        var updateValidator = new CategoryUpdateValidator();
+        var validationResult = updateValidator.Validate(dto);
+        if (validationResult.IsValid) return Ok(await _service.UpdateAsync(categoryId, dto));
+        else return BadRequest(validationResult.Errors);
+    }
 
     [HttpDelete("{categoryId}")]
     public async Task<IActionResult> DeleteAsync(long categoryId)
