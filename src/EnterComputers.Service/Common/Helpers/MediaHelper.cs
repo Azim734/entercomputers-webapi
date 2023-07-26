@@ -21,8 +21,8 @@ public class MediaHelper
              ".png",
              //Bmp files
              ".bmp",
-             //Heic files
-             ".heic"
+               //Svg files
+             ".svg"
         };
     }
 }
