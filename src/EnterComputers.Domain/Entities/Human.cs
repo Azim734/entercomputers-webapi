@@ -23,4 +23,6 @@ public abstract class Human : Auditable
 
     public string ImagePath { get; set; } = string.Empty;
 
+    public DateTime LastActivity { get; set; }
+
 }

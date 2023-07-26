@@ -14,7 +14,7 @@ public class User : Human
 
     public string Salt { get; set; } = string.Empty;
 
-    public DateTime LastActivity { get; set; }
+    //public DateTime LastActivity { get; set; }
 
     public IdentityRole Role { get; set; }
 
