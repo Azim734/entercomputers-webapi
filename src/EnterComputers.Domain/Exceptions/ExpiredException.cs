@@ -2,9 +2,9 @@
 
 namespace EnterComputers.Domain.Exceptions;
 
-public class AlreadyExixtsExcaption : Exception 
+public class ExpiredException : Exception 
 {
-    public HttpStatusCode StatusCode { get;  } = HttpStatusCode.NotFound;
+    public HttpStatusCode StatusCode { get; } = HttpStatusCode.Gone;
 
     public string TitleMessage { get; protected set; } = string.Empty;
 }

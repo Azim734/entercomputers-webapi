@@ -4,14 +4,17 @@ using EnterComputers.DataAcces.Interfaces.Users;
 using EnterComputers.DataAcces.Repositories.Categories;
 using EnterComputers.DataAcces.Repositories.Companies;
 using EnterComputers.DataAcces.Repositories.Users;
+using EnterComputers.Service.Dtos.Notification;
 using EnterComputers.Service.Interfaces.Auth;
 using EnterComputers.Service.Interfaces.Categories;
 using EnterComputers.Service.Interfaces.Common;
 using EnterComputers.Service.Interfaces.Companies;
+using EnterComputers.Service.Interfaces.Notification;
 using EnterComputers.Service.Services.Auth;
 using EnterComputers.Service.Services.Categories;
 using EnterComputers.Service.Services.Common;
 using EnterComputers.Service.Services.Companies;
+using EnterComputers.Service.Services.Notifications;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,6 +34,7 @@ builder.Services.AddScoped<IFileService, FileServic>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IcompanyService, CompaniService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddSingleton<ISmsSender, SmsSender>();
 
 
 
