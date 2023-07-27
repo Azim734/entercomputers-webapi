@@ -7,19 +7,24 @@ using EnterComputers.Service.Common.Helpers;
 using EnterComputers.Service.Dtos.Categories;
 using EnterComputers.Service.Interfaces.Categories;
 using EnterComputers.Service.Interfaces.Common;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace EnterComputers.Service.Services.Categories;
 
 public class CategoryService : ICategoryService
 {
-    private ICategoryRepository _reposetory;
-    private IFileService _fileService;
+    private readonly ICategoryRepository _reposetory;
+    private readonly IFileService _fileService;
+    private readonly IMemoryCache _memoryCache;
 
     public CategoryService(ICategoryRepository categoryRepository,
-        IFileService fileService)
+        IFileService fileService,
+        IMemoryCache memoryCache)
     {
         this._reposetory = categoryRepository;
         this._fileService = fileService;
+        this._memoryCache = memoryCache;
+
     }
 
     public async Task<long> CountAsync()
@@ -64,9 +69,16 @@ public class CategoryService : ICategoryService
 
     public async Task<Category> GetByIdAsync(long categoryId)
     {
-        var category = await _reposetory.GetByIdAsync(categoryId);
-        if (category is null) throw new CategoryNotFoundExcaption();
-        else return category;
+        if(_memoryCache.TryGetValue(categoryId, out Category cachedCategory))
+        {
+            return cachedCategory;
+        }
+        else
+        {
+            var category = await _reposetory.GetByIdAsync(categoryId);
+            if (category is null) throw new CategoryNotFoundExcaption();
+            return category;
+        }
     }
 
     public async Task<bool> UpdateAsync(long categoryId, CategoryUpdateDto dto)

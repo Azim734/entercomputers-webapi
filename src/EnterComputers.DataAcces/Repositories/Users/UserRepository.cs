@@ -34,7 +34,7 @@ public class UserRepository : BaseRepository, IUserRepository
         {
             await _connection.OpenAsync();
             string query = "INSERT INTO public.users(first_name, last_name, phone_number, phone_number_confirmed, passport_seria_number, is_male, birth_date, country, region, password_hash, salt, image_path, last_activity, role, created_at, updated_at) " +
-                "VALUES (@FirstName, @LastName, @phoneNumber, @PhoneNumberConfirmed, @PassportSeriaNumber, @IsMale, @BirthDate, @Country, @Region, @PasswordHash, @Salt, @ImagePath, @LastActivity, @Role,@CreatedAt, @UpdatedAt));";
+                "VALUES (@FirstName, @LastName, @phoneNumber, @PhoneNumberConfirmed, @PassportSeriaNumber, @IsMale, @BirthDate, @Country, @Region, @PasswordHash, @Salt, @ImagePath, @LastActivity, @Role,@CreatedAt, @UpdatedAt);";
             return await _connection.ExecuteAsync(query, entity);
 
         }
@@ -68,7 +68,45 @@ public class UserRepository : BaseRepository, IUserRepository
             await _connection.CloseAsync();
         }
     }
+    public async Task<IList<User>> GetAllAsync(PaginationParams @params)
+    {
 
+        try
+        {
+            await _connection.OpenAsync();
+            string query = $"SELECT * FROM users order by id desc " +
+                $"offset {@params.GetSkipCount()} limit {@params.PageSize}";
+            var result = (await _connection.QueryAsync<User>(query)).ToList();
+            return result;
+        }
+        catch
+        {
+            return new List<User>();
+        }
+        finally
+        {
+            await _connection.CloseAsync();
+        }
+    }
+
+    public async Task<User?> GetByIdAsync(long id)
+    {
+        try
+        {
+            await _connection.OpenAsync();
+            string query = $"SELECT * FROM users where id = {id}";
+            var result = await _connection.QuerySingleAsync<User>(query);
+            return result;
+        }
+        catch
+        {
+            return null;
+        }
+        finally
+        {
+            await _connection.CloseAsync();
+        }
+    }
     public async Task<User?> GetByPhoneAsync(string phone)
     {
         try
@@ -89,25 +127,33 @@ public class UserRepository : BaseRepository, IUserRepository
         }
     }
 
-    public Task<IList<UserViewModel>> GetAllAsync(PaginationParams @params)
+    public async Task<int> UpdateAsync(long id, User entity)
+    {
+        try
+        {
+            await _connection.OpenAsync();
+            string query = "UPDATE public.users " +
+                "SET first_name=@FirstName, last_name=@LastName, phone_number=@PhoneNumber, phone_number_confirmed=@PhoneNumberConfirmed, passport_seria_number=@PassportSeriaNumber, is_male=@IsMale, birth_date=@BirthDate, country=@Country, region=@Region, password_hash=@PasswordHash, salt=@Salt, image_path=@ImagePath, last_activity=@LastActivity, role=@Role, created_at=@CreatedAt, updated_at=@UpdatedAt " +
+                "WHERE id=@Id;";
+
+            entity.Id = id;
+            var result = await _connection.ExecuteAsync(query, entity);
+            return result;
+        }
+        catch
+        {
+            return 0;
+        }
+        finally
+        {
+            await _connection.CloseAsync();
+        }
+    }
+
+
+    public async Task<(int ItemsCount, IList<User>)> SearchAsync(string search, PaginationParams @params)
     {
         throw new NotImplementedException();
     }
 
-    public Task<UserViewModel?> GetByIdAsync(long id)
-    {
-        throw new NotImplementedException();
-    }
-
-   
-
-    public Task<(int ItemsCount, IList<UserViewModel>)> SearchAsync(string search, PaginationParams @params)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<int> UpdateAsync(long id, User entity)
-    {
-        throw new NotImplementedException();
-    }
 }

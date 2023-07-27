@@ -4,8 +4,6 @@ namespace EnterComputers.Service.Interfaces.Notification;
 
 public interface ISmsSender
 {
-    public Task<bool> SendAsync(SmsMessage smsMessage)
-    {
-        throw new NotImplementedException();
-    }
+    public Task<bool> SendAsync(SmsMessage smsMessage);
+
 }

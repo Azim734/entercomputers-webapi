@@ -10,11 +10,13 @@ using EnterComputers.Service.Interfaces.Categories;
 using EnterComputers.Service.Interfaces.Common;
 using EnterComputers.Service.Interfaces.Companies;
 using EnterComputers.Service.Interfaces.Notification;
+using EnterComputers.Service.Interfaces.Users;
 using EnterComputers.Service.Services.Auth;
 using EnterComputers.Service.Services.Categories;
 using EnterComputers.Service.Services.Common;
 using EnterComputers.Service.Services.Companies;
 using EnterComputers.Service.Services.Notifications;
+using EnterComputers.Service.Services.Users;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,19 +32,25 @@ builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 
+
 builder.Services.AddScoped<IFileService, FileServic>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IcompanyService, CompaniService>();
-builder.Services.AddScoped<IAuthService, AuthService>();
+
+
+builder.Services.AddScoped<ITokenService, TokenService>();  
+//ilder.Services.AddScoped<ITokenService, AuthService>();
 builder.Services.AddSingleton<ISmsSender, SmsSender>();
 
 
 
 
-/*builder.Services.AddSingleton<IShortStorageService, ShortStorageService>();
+builder.Services.AddSingleton<IShortStorageService, ShortStorageService>();
 builder.Services.AddScoped<IShortStorageService, ShortStorageService>();
 builder.Services.AddTransient<IShortStorageService, ShortStorageService>();
-*/
+
 
 
 
