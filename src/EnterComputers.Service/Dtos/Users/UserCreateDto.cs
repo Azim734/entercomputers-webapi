@@ -39,6 +39,5 @@ public class UserCreateDto
 
     public DateTime LastActivity { get; set; }
 
-    public IdentityRole Role { get; set; }
 
 }

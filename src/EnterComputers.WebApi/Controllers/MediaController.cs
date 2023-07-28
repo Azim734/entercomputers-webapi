@@ -7,15 +7,15 @@ namespace EnterComputers.WebApi.Controllers;
 [ApiController]
 public class MediaController : ControllerBase
 {
-    [HttpPost("images")]
-    public async Task<string> CreateImageAsync([FromForm] ImageCreateDto imageDto)
-    {
-        return "";
-    }
+    //[HttpPost("images")]
+    //public async Task<string> CreateImageAsync([FromForm] ImageCreateDto imageDto)
+    //{
+    //    return "";
+    //}
 
-    [HttpPost("avatar")]
-    public async Task<string> CreateAvatarAsync([FromForm] AvatarCreateDto avatarDto)
-    {
-        return "";
-    }
+    //[HttpPost("avatar")]
+    //public async Task<string> CreateAvatarAsync([FromForm] AvatarCreateDto avatarDto)
+    //{
+    //    return "";
+    //}
 }

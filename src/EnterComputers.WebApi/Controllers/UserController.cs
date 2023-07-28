@@ -30,14 +30,14 @@ namespace EnterComputers.WebApi.Controllers
         public async Task<IActionResult> CountAsync()
             => Ok(await _userService.CountAsync());
 
-        [HttpPost]
-        public async Task<IActionResult> CreateAsync([FromForm] UserCreateDto userCreateDto)
-        {
-            var createValidator = new UserCreateValidator();
-            var result = createValidator.Validate(userCreateDto);
-            if (result.IsValid) return Ok(await _userService.CreateAsync(userCreateDto));
-            else return BadRequest(result.Errors);
-        }
+        //[HttpPost]
+        //public async Task<IActionResult> CreateAsync([FromForm] UserCreateDto userCreateDto)
+        //{
+        //    var createValidator = new UserCreateValidator();
+        //    var result = createValidator.Validate(userCreateDto);
+        //    if (result.IsValid) return Ok(await _userService.CreateAsync(userCreateDto));
+        //    else return BadRequest(result.Errors);
+        //}
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetUserById(long id)

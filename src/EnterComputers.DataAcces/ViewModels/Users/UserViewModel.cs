@@ -34,6 +34,6 @@ namespace EnterComputers.DataAcces.ViewModels.Users
 
         public DateTime LastActivity { get; set; }
 
-        public IdentityRole Role { get; set; }
+        public IdentityRole IdentityRole { get; set; }
     }
 }

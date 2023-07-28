@@ -1,6 +1,7 @@
 ﻿using EnterComputers.DataAcces.Interfaces.Users;
 using EnterComputers.DataAcces.Utils;
 using EnterComputers.Domain.Entities.Users;
+using EnterComputers.Domain.Enums;
 using EnterComputers.Domain.Exceptions;
 using EnterComputers.Domain.Exceptions.Files;
 using EnterComputers.Service.Common.Helpers;
@@ -41,8 +42,7 @@ public class UserService : IUserService
             Country = userCreateDto.Country,
             Region = userCreateDto.Region,
             Salt = userCreateDto.Salt,
-            ImagePath = imagepath,
-            Role = userCreateDto.Role,
+            ImagePath = imagepath
         };
         var hashres = PasswordHasher.Hash(user.PasswordHash);
         user.Salt = hashres.Salt;
@@ -81,8 +81,7 @@ public class UserService : IUserService
         user.BirthDate = userUpdateDto.BirthDate;
         user.Country = userUpdateDto.Country;
         user.Region = userUpdateDto.Region;
-        user.PasswordHash = userUpdateDto.PasswordHash;
-        user.Salt = userUpdateDto.Salt;
+        
         if (userUpdateDto.ImagePath is not null)
         {
             var deleteREs = await _fileService.DeleteImageAsync(user.ImagePath);

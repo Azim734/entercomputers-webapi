@@ -33,8 +33,8 @@ public class UserRepository : BaseRepository, IUserRepository
         try
         {
             await _connection.OpenAsync();
-            string query = "INSERT INTO public.users(first_name, last_name, phone_number, phone_number_confirmed, passport_seria_number, is_male, birth_date, country, region, password_hash, salt, image_path, last_activity, role, created_at, updated_at) " +
-                "VALUES (@FirstName, @LastName, @phoneNumber, @PhoneNumberConfirmed, @PassportSeriaNumber, @IsMale, @BirthDate, @Country, @Region, @PasswordHash, @Salt, @ImagePath, @LastActivity, @Role,@CreatedAt, @UpdatedAt);";
+            string query = "INSERT INTO public.users(first_name, last_name, phone_number, phone_number_confirmed, passport_seria_number, is_male, birth_date, country, region, password_hash, salt, image_path, last_activity, IdentityRole, created_at, updated_at) " +
+                "VALUES (@FirstName, @LastName, @PhoneNumber, @PhoneNumberConfirmed, @PassportSeriaNumber, @IsMale, @BirthDate, @Country, @Region, @PasswordHash, @Salt, @ImagePath, @LastActivity, @IdentityRole, @CreatedAt, @UpdatedAt);";
             return await _connection.ExecuteAsync(query, entity);
 
         }
@@ -112,7 +112,7 @@ public class UserRepository : BaseRepository, IUserRepository
         try
         {
             await _connection.OpenAsync();
-            string query = "SELECT * from where phone_number = @PhoneNumber";
+            string query = "SELECT * from users where phone_number = @PhoneNumber";
             var data = await _connection.QuerySingleAsync<User>(query, new { PhoneNumber = phone });
             return data;
         }
@@ -133,7 +133,7 @@ public class UserRepository : BaseRepository, IUserRepository
         {
             await _connection.OpenAsync();
             string query = "UPDATE public.users " +
-                "SET first_name=@FirstName, last_name=@LastName, phone_number=@PhoneNumber, phone_number_confirmed=@PhoneNumberConfirmed, passport_seria_number=@PassportSeriaNumber, is_male=@IsMale, birth_date=@BirthDate, country=@Country, region=@Region, password_hash=@PasswordHash, salt=@Salt, image_path=@ImagePath, last_activity=@LastActivity, role=@Role, created_at=@CreatedAt, updated_at=@UpdatedAt " +
+                "SET first_name=@FirstName, last_name=@LastName, phone_number=@PhoneNumber, phone_number_confirmed=@PhoneNumberConfirmed, passport_seria_number=@PassportSeriaNumber, is_male=@IsMale, birth_date=@BirthDate, country=@Country, region=@Region, password_hash=@PasswordHash, salt=@Salt, image_path=@ImagePath, last_activity=@LastActivity, IdentityRole=@IdentityRole, created_at=@CreatedAt, updated_at=@UpdatedAt " +
                 "WHERE id=@Id;";
 
             entity.Id = id;

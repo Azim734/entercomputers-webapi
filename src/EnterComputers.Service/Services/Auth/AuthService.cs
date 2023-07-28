@@ -125,15 +125,20 @@ public class AuthService : IAuthService
         user.PhoneNumber = registerDto.PhoneNumber;
         user.PhoneNumberConfirmed = true;
         user.BirthDate = TimeHelper.GetDateTime();
-        user.Country = "Uzbekistan";
-        user.Region = "Surxandaryo";
+        user.Country = "";
+        user.Region = "";
+        user.ImagePath = "";
+        user.IsMale = true;
+        user.LastActivity = DateTime.Now;
+        user.PassportSeriaNumber = "";
+
 
         var hasherResult = PasswordHasher.Hash(registerDto.Password);
         user.PasswordHash = hasherResult.Hash;
         user.Salt = hasherResult.Salt;
 
         user.CreatedAt = user.UpdatedAt = user.LastActivity = TimeHelper.GetDateTime();
-        user.Role = Domain.Enums.IdentityRole.User;
+        
 
         var dbResult = await _userRepository.CreateAsync(user);
         return dbResult > 0;

@@ -17,6 +17,7 @@ using EnterComputers.Service.Services.Common;
 using EnterComputers.Service.Services.Companies;
 using EnterComputers.Service.Services.Notifications;
 using EnterComputers.Service.Services.Users;
+using EnterComputers.WebApi.Configurations;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -51,7 +52,8 @@ builder.Services.AddSingleton<IShortStorageService, ShortStorageService>();
 builder.Services.AddScoped<IShortStorageService, ShortStorageService>();
 builder.Services.AddTransient<IShortStorageService, ShortStorageService>();
 
-
+builder.ConfigureJwtAuth();
+builder.ConfigureSwaggerAuth();
 
 
 var app = builder.Build();
@@ -63,6 +65,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseCors("AllowAll");
 app.UseStaticFiles();
 app.UseAuthorization();
 app.MapControllers();
