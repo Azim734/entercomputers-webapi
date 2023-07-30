@@ -42,7 +42,6 @@ builder.Services.AddScoped<IcompanyService, CompaniService>();
 
 
 builder.Services.AddScoped<ITokenService, TokenService>();  
-//ilder.Services.AddScoped<ITokenService, AuthService>();
 builder.Services.AddSingleton<ISmsSender, SmsSender>();
 
 
@@ -58,7 +57,7 @@ builder.ConfigureSwaggerAuth();
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
 {
     app.UseSwagger();
     app.UseSwaggerUI();

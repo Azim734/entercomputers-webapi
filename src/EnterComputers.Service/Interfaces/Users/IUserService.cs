@@ -8,19 +8,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EnterComputers.Service.Interfaces.Users
+namespace EnterComputers.Service.Interfaces.Users;
+
+public interface IUserService
 {
-    public interface IUserService
-    {
-        public Task<long> CreateAsync(UserCreateDto userCreateDto);
+    public Task<long> CreateAsync(UserCreateDto userCreateDto);
 
-        public Task<bool> DeleteAsync(long id);
+    public Task<bool> DeleteAsync(long id);
 
-        public Task<long> CountAsync();
+    public Task<long> CountAsync();
 
-        public Task<IList<User>> GetAllAsync(PaginationParams @params);
+    public Task<IList<User>> GetAllAsync(PaginationParams @params);
 
-        public Task<bool> UpdateAsync(long id, UserUpdateDto userUpdateDto);
+    public Task<bool> UpdateAsync(long id, UserUpdateDto userUpdateDto);
 
-    }
 }

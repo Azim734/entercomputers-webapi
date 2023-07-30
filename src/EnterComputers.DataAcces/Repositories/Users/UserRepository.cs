@@ -74,7 +74,7 @@ public class UserRepository : BaseRepository, IUserRepository
         try
         {
             await _connection.OpenAsync();
-            string query = $"SELECT * FROM users order by id desc " +
+            string query = $"SELECT id,first_name,last_name,phone_number,birth_date, country, region,last_activity, IdentityRole FROM public.users ORDER BY id desc " +
                 $"offset {@params.GetSkipCount()} limit {@params.PageSize}";
             var result = (await _connection.QueryAsync<User>(query)).ToList();
             return result;
@@ -94,7 +94,7 @@ public class UserRepository : BaseRepository, IUserRepository
         try
         {
             await _connection.OpenAsync();
-            string query = $"SELECT * FROM users where id = {id}";
+            string query = $"SELECT id,first_name,last_name,phone_number,birth_date, country, region,last_activity, IdentityRole FROM public.users  where id = {id}";
             var result = await _connection.QuerySingleAsync<User>(query);
             return result;
         }
